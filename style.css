@@ -1,0 +1,238 @@
+/* --- New Light Color Palette --- */
+:root {
+    --primary-green: #4CAF50;
+    --dark-grey: #333333;
+    --medium-grey: #555555;
+    --light-grey: #f4f4f4;
+    --text-white: #FFFFFF;
+    --link-hover: #3e8e41;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-hover: rgba(255, 255, 255, 0.8);
+}
+
+/* --- Basic Setup --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    /* This is the background that shows *behind* the canvas */
+    background-color: var(--light-grey);
+    color: var(--dark-grey);
+    overflow: hidden; /* Hides scrollbars */
+}
+
+/* --- Background Animation Canvas --- */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #f0f0f0; /* Slightly different background to create depth */
+    opacity: 1; /* Ensure full opacity */
+    pointer-events: none; /* Allow clicking through the canvas */
+}
+
+/* --- Full-Screen Glass Container --- */
+.content-container {
+    position: relative;
+    z-index: 2; /* Sits on top of the canvas */
+    
+    width: 100vw;
+    height: 100vh;
+    padding: 5% 10%; /* Responsive padding */
+    
+    /* Center the content vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    /* The new light-glass effect */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* We use overflow-y in case content is too long on small screens */
+    overflow-y: auto; 
+}
+
+/* --- Text Styling (now dark) --- */
+h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-grey); /* Dark text for title */
+    text-align: left;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+/* Green accent for the emoji */
+h1 span {
+    color: var(--primary-green);
+}
+
+h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    border-bottom: 1px solid var(--primary-green);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    display: inline-block; /* Makes border only as long as text */
+}
+
+p, li {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: var(--dark-grey); /* Dark text */
+    max-width: 700px; /* Improves readability */
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+/* --- Features List --- */
+.features ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.features li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+
+/* Custom bullet point */
+.features li::before {
+    content: '■';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary-green);
+    font-size: 0.8rem;
+}
+
+/* --- Contact & Footer --- */
+.contact-info p {
+    margin-bottom: 5px;
+}
+
+.contact-info a {
+    color: var(--primary-green); /* Links are green */
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: var(--link-hover);
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+    opacity: 0;
+}
+
+/* Hover animations for features */
+.features li {
+    transition: transform 0.3s ease, padding-left 0.3s ease;
+}
+
+.features li:hover {
+    transform: translateX(10px);
+    padding-left: 25px;
+    color: var(--primary-green);
+}
+
+/* Button hover effects */
+.contact-info a {
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.contact-info a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-green);
+    transition: width 0.3s ease;
+}
+
+.contact-info a:hover::after {
+    width: 100%;
+}
+
+/* Add subtle hover effect to sections */
+section {
+    transition: transform 0.3s ease;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    margin-bottom: 30px;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Logo Styling in Navbar --- */
+.logo {
+    font-size: 2.2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.08);
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.logo img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.logo:hover {
+    transform: scale(1.08);
+}

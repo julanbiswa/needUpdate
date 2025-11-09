@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LBN Production - Professional Photo & Video Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --accent-green: #22c55e;
+            --accent-dark: #16a34a;
+            --border-color: #e5e7eb;
+        }
+
+        html.dark-mode {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent-green: #22c55e;
+            --accent-dark: #16a34a;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(34, 197, 94, 0.03) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(34, 197, 94, 0.02) 50%, transparent 70%);
+            background-size: 100px 100px, 100px 100px;
+            background-position: 0 0, 50px 50px;
+            animation: gridShift 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes gridShift {
+            0% {
+                background-position: 0 0, 50px 50px;
+            }
+            100% {
+                background-position: 100px 100px, 150px 150px;
+            }
+        }
+
+        /* Animated Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-green);
+            top: -100px;
+            right: -100px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-green);
+            bottom: -50px;
+            left: 10%;
+            animation: float 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        html.dark-mode .navbar {
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            letter-spacing: -0.5px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-green);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+            line-height: 1.8;
+        }
+
+        .accent-text {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            animation: bounce 2s infinite;
+            font-size: 2.5rem;
+            color: var(--accent-green);
+            opacity: 0.8;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .scroll-indicator:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-green);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-green);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .features-list li:hover {
+            transform: translateX(10px);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .feature-icon {
+            margin-right: 0.75rem;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(34, 197, 94, 0.1);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .service-card:hover::before {
+            left: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.15);
+        }
+
+        .service-card h3 {
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--bg-secondary);
+            padding: 4rem 2rem;
+            margin-top: 3rem;
+            border-radius: 12px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item p {
+            color: var(--text-secondary);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: inherit;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--accent-green);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+
+            .theme-toggle {
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* Animation delay utilities */
+        .delay-1 { animation-delay: 0s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.2s; }
+        .delay-4 { animation-delay: 0.3s; }
+        .delay-5 { animation-delay: 0.4s; }
+        .delay-6 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">LBN Production <img src="images/logo.png" alt="" style="width:66px;height:66px; padding:0px; vertical-align:middle;margin-left:8px;border-radius:50%;object-fit:contain;box-shadow:0 2px 8px rgba(34,197,94,0.10);background:#fff;"/></div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>LBN Production</h1>
+        <p class="hero-subtitle">Professional <span class="accent-text">Photo & Video</span> Production Studio</p>
+        <p class="hero-description">
+            We transform your vision into stunning visual content. Our team of experts specializes in creating high-quality photography and videography for brands that demand excellence.
+        </p>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+        <h2 class="section-title">About LBN Production</h2>
+        <div class="about-grid">
+            <div class="about-content">
+                <h3>Who We Are</h3>
+                <p>
+                    LBN Production is a premier creative studio dedicated to delivering exceptional visual storytelling. With years of experience in the industry, we've built a reputation for excellence and innovation.
+                </p>
+                <p>
+                    Our mission is to help brands communicate their message through powerful, professionally crafted imagery and video content that resonates with audiences and drives results.
+                </p>
+            </div>
+            <div>
+                <h3 style="color: var(--accent-green); margin-bottom: 1.5rem;">What We Offer</h3>
+                <ul class="features-list">
+                    <li><span class="feature-icon">✓</span> Professional Photography</li>
+                    <li><span class="feature-icon">✓</span> Video Production & Editing</li>
+                    <li><span class="feature-icon">✓</span> Content Creation</li>
+                    <li><span class="feature-icon">✓</span> Corporate Videos</li>
+                    <li><span class="feature-icon">✓</span> Product Photography</li>
+                    <li><span class="feature-icon">✓</span> Event Coverage</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card delay-1">
+                <div class="service-icon">📸</div>
+                <h3>Portrait Photography</h3>
+                <p>Capture stunning individual and corporate portraits that showcase personality and professionalism with perfect lighting and composition.</p>
+            </div>
+            <div class="service-card delay-2">
+                <div class="service-icon">🎬</div>
+                <h3>Video Production</h3>
+                <p>From concept to final cut, we produce engaging videos that tell your story and connect with your audience on a deeper level.</p>
+            </div>
+            <div class="service-card delay-3">
+                <div class="service-icon">🎥</div>
+                <h3>Product Photography</h3>
+                <p>Highlight your products with professionally shot imagery that showcases every detail and drives customer engagement and sales.</p>
+            </div>
+            <div class="service-card delay-4">
+                <div class="service-icon">🎞️</div>
+                <h3>Event Coverage</h3>
+                <p>Document your special events with cinematic photography and videography that preserves precious moments for eternity.</p>
+            </div>
+            <div class="service-card delay-5">
+                <div class="service-icon">✂️</div>
+                <h3>Post-Production</h3>
+                <p>Expert editing and color grading that transforms raw footage into polished, professional content ready for any platform.</p>
+            </div>
+            <div class="service-card delay-6">
+                <div class="service-icon">🎨</div>
+                <h3>Creative Consulting</h3>
+                <p>Work with our creative team to develop visual strategies and concepts that align with your brand identity and goals.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="contact-section">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <strong>📧 Email</strong>
+                        <p><a href="mailto:info@lbnproduction.com" style="color: var(--text-secondary); text-decoration: none;">info@lbnproduction.com</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <strong>📱 Phone</strong>
+                        <p><a href="tel:+1234567890" style="color: var(--text-secondary); text-decoration: none;">+1 (234) 567-890</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <strong>📍 Address</strong>
+                        <p>123 Creative Street<br>Studio City, CA 90210</p>
+                    </div>
+                    <div class="contact-item">
+                        <strong>🕐 Hours</strong>
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: By Appointment</p>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/xyzlgnnl" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="text" name="subject" placeholder="Subject">
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 LBN Production. All rights reserved. | Professional Photo & Video Studio</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.classList.toggle('dark-mode', savedTheme === 'dark');
+        updateThemeButton(savedTheme === 'dark');
+
+        themeToggle.addEventListener('click', () => {
+            const isDarkMode = html.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            updateThemeButton(isDarkMode);
+        });
+
+        function updateThemeButton(isDarkMode) {
+            themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // Form Handler with Formspree
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    alert('Thank you! Your message has been sent successfully.');
+                    this.reset();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                alert('Sorry, there was a problem sending your message. Please try again.');
+                console.error(error);
+            }
+        });
+
+        // Scroll animation for service cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
